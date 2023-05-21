@@ -1,6 +1,9 @@
-import { Link, Outlet, useParams } from 'react-router-dom';
+import { Suspense, useRef } from 'react';
+import { Link, Outlet, useParams, useLocation } from 'react-router-dom';
 
 const DogDetails = () => {
+  const location = useLocation();
+  const backLinkLocationRef = useRef(location.state?.from ?? '/dogs');
   const { dogId } = useParams();
 
   // useEffect(() => {
@@ -10,6 +13,7 @@ const DogDetails = () => {
   return (
     <>
       <h1>Details: {dogId} </h1>
+      <Link to={backLinkLocationRef.current}>Back</Link>
       <ul>
         <li>
           <Link to="subbreeds">Poroda</Link>
@@ -18,7 +22,10 @@ const DogDetails = () => {
           <Link to="gallery">Galeri</Link>
         </li>
       </ul>
-      <Outlet />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>
+      ;
     </>
   );
 };
