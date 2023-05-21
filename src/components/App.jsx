@@ -1,29 +1,59 @@
-import { Route, Routes } from 'react-router-dom';
-import { lazy } from 'react';
-import Layout from './Layout';
-// import Dogs from './pages/Dogs';
-// import Home from './pages/Home';
-// import DogDetails from './pages/DogDetails';
-// import Gallery from './Gallery';
-// import Subbreeds from './Subbreeds';
+// import { Component, useState } from 'react'
+import { lazy, Suspense } from 'react'
 
-const Dogs = lazy(() => import('./pages/Dogs'));
-const Home = lazy(() => import('./pages/Home'));
-const DogDetails = lazy(() => import('./pages/DogDetails'));
-const Gallery = lazy(() => import('./Gallery'));
-const Subbreeds = lazy(() => import('./Subbreeds'));
+import { Route, Routes } from 'react-router-dom'
 
-export const App = () => {
-  return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} />
-        <Route path="/dogs" element={<Dogs />} />
-        <Route path="/dogs/:dogId" element={<DogDetails />}>
-          <Route path="subbreeds" element={<Subbreeds />} />
-          <Route path="gallery" element={<Gallery />} />
-        </Route>
-      </Route>
-    </Routes>
-  );
-};
+// import { Toaster } from 'react-hot-toast'
+// import { nanoid } from 'nanoid'
+
+// import Header from './Header/Header'
+// import Counter from './Counter/Counter'
+// import ToDoList from './ToDoList/ToDoList'
+// import Modal from './Modal/Modal'
+// import LoginForm from './LoginForm/LoginForm'
+// import Search from './Search/Search'
+// import ContentInfo from './ContentInfo/ContentInfo'
+// import TestUseMemo from './TestUseMemo/TestUseMemo'
+
+// import HomePage from './pages/HomePage'
+// import TodoPage from './pages/TodoPages/TodoPage'
+// import NewsPage from './pages/NewsPage'
+// import Layout from './Layout/Layout'
+// import TodoPageDetails from './pages/TodoPages/TodoPageDetails'
+
+const TodoPage = lazy(() => import('./pages/TodoPages/TodoPage'))
+
+const HomePage = lazy(() => import('./pages/HomePage'))
+
+const NewsPage = lazy(() => import('./pages/NewsPage'))
+
+const Layout = lazy(() => import('./Layout/Layout'))
+
+const TodoPageDetails = lazy(() => import('./pages/TodoPages/TodoPageDetails'))
+
+const App = () => {
+	return (
+		<>
+			<Routes>
+				<Route
+					path='/'
+					element={
+						<Suspense>
+							<Layout />
+						</Suspense>
+					}
+				>
+					<Route index element={<HomePage />} />
+					<Route path='todo/' element={<TodoPage />}>
+						{/* <Route path=':todoId' element={<TodoPageDetails />} /> */}
+					</Route>
+					<Route path='todo/:todoId' element={<TodoPageDetails />} />
+
+					<Route path='news' element={<NewsPage />} />
+				</Route>
+			</Routes>
+		</>
+	)
+}
+
+export default App
